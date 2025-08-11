@@ -9,6 +9,7 @@ public class Pathfinder : MonoBehaviour
     
     public void StartPathfinding()
     {
+        ClearPath();
         path = startNode.FindPath(targetNode);
         PrintPath();
         HighlightNodes();
@@ -47,6 +48,8 @@ public class Pathfinder : MonoBehaviour
         }
     }
 
+    private List<GameObject> connectionLines = new List<GameObject>();
+
     private void DrawConnections(List<NodeBehavior> nodes)
     {
         if (nodes == null || nodes.Count < 2) return;
@@ -64,6 +67,28 @@ public class Pathfinder : MonoBehaviour
             lineRenderer.SetPosition(1, nodes[i + 1].transform.position);
             lineRenderer.startWidth = 0.1f;
             lineRenderer.endWidth = 0.1f;
+
+            connectionLines.Add(lineObj);
         }
+    }
+
+    private void ClearPath()
+    {
+        if (path == null) return;
+        foreach (var node in path)
+        {
+            var renderer = node.gameObject.GetComponent<SpriteRenderer>();
+            if (renderer != null)
+            {
+                renderer.material.color = Color.white;
+            }
+        }
+        
+        // Delete previously created lines
+        foreach (var line in connectionLines)
+        {
+            Destroy(line);
+        }
+        connectionLines.Clear();
     }
 }
