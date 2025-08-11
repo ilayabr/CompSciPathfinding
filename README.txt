@@ -1,0 +1,1 @@
+In the unity inspector of the button called "Pathfinder" you can set the start node and the target node, then press the button in the game window to calculate the path.
